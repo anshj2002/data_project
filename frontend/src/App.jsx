@@ -6,7 +6,7 @@ function App() {
   const [weatherData, setWeatherData] = useState([]);
 
   const fetchData = async () => {
-    const res = await fetch("http://127.0.0.1:8000/weather");
+    const res = await fetch("https://data-project-u7dj.onrender.com/weather");
     const data = await res.json();
     setWeatherData(data);
   };

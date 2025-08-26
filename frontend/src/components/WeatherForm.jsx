@@ -5,7 +5,7 @@ function WeatherForm({ onFetch }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await fetch(`http://127.0.0.1:8000/fetch/${city}`, { method: "POST" });
+    await fetch(`https://data-project-u7dj.onrender.com/fetch/${city}`, { method: "POST" });
     setCity("");
     onFetch();
   };
