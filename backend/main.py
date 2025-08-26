@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 import requests
+import os
 
 from . import database, models
 
@@ -15,7 +16,7 @@ def get_db():
     finally:
         db.close()
 
-OPENWEATHER_API_KEY = "YOUR_API_KEY"   # 🔑 Replace with your OpenWeather API key
+OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY", "YOUR_API_KEY")   # 🔑 Replace with your OpenWeather API key
 
 @app.post("/fetch/{city}")
 def fetch_weather(city: str, db: Session = Depends(get_db)):
