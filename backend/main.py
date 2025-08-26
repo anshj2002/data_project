@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import requests
 import os
@@ -9,6 +10,19 @@ models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI()
 
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "https://meek-custard-7c1ca1.netlify.app",  # Your Netlify domain
+        "http://localhost:5173",  # For local development
+        "http://localhost:3000",  # Alternative local port
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 def get_db():
     db = database.SessionLocal()
     try:
@@ -16,7 +30,7 @@ def get_db():
     finally:
         db.close()
 
-OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY", "YOUR_API_KEY")   # 🔑 Replace with your OpenWeather API key
+OPENWEATHER_API_KEY = os.getenv("OPENWEATHER_API_KEY", "YOUR_API_KEY")
 
 @app.post("/fetch/{city}")
 def fetch_weather(city: str, db: Session = Depends(get_db)):
